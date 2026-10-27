@@ -1,0 +1,193 @@
+/* Petualangan Pintu Bilangan Bulat — gaya utama, responsif dan ramah sentuhan */
+:root {
+  --bg: #0f2a2e;
+  --bg2: #143f3a;
+  --card: #fffdf5;
+  --ink: #16302e;
+  --muted: #5a6f6a;
+  --teal: #0f766e;
+  --teal-dark: #0b5a52;
+  --amber: #f59e0b;
+  --amber-dark: #b45309;
+  --green: #15803d;
+  --green-bg: #dcfce7;
+  --red: #b91c1c;
+  --red-bg: #fee2e2;
+  --line: #e5ddd0;
+  --radius: 18px;
+  --shadow: 0 12px 30px rgba(0, 0, 0, .25);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: radial-gradient(900px 500px at 20% 0%, #1d5c52 0, transparent 60%),
+              radial-gradient(700px 500px at 90% 20%, #274b63 0, transparent 55%),
+              linear-gradient(180deg, var(--bg), #0b1f22);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.topbar {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 18px 16px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #fff;
+}
+.brand { display: flex; gap: 12px; align-items: center; }
+.brand-icon { font-size: 42px; }
+.brand h1 { margin: 0; font-size: clamp(20px, 4vw, 30px); line-height: 1.15; }
+.brand p { margin: 4px 0 0; color: #cfe8e0; font-size: 14px; }
+
+.wrap { max-width: 880px; margin: 0 auto; padding: 12px 16px 28px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(18px, 4vw, 32px);
+}
+.screen { display: none; }
+.screen.active { display: block; }
+
+.badge {
+  display: inline-block;
+  margin: 0 0 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: var(--amber-dark);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .02em;
+}
+h2 { margin: 6px 0 10px; font-size: clamp(24px, 5vw, 34px); line-height: 1.15; }
+h3 { margin: 22px 0 8px; font-size: 19px; }
+.lead { font-size: 17px; line-height: 1.6; color: #334d49; }
+.story {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: #eef7f3; border: 1px solid #cde8dd;
+  border-radius: 14px; padding: 14px 16px;
+}
+.story > span { font-size: 30px; }
+.story p { margin: 0; line-height: 1.55; }
+.how, .levels-preview ul { line-height: 1.6; padding-left: 22px; }
+.how li, .levels-preview li { margin: 7px 0; }
+.score-rules {
+  background: #fff7ed; border: 1px solid #fed7aa;
+  border-radius: 14px; padding: 12px 16px; margin: 18px 0;
+}
+.score-rules p { margin: 6px 0; line-height: 1.55; }
+.note { color: var(--muted); font-size: 14px; line-height: 1.55; }
+
+/* Tombol — minimal 48px agar mudah disentuh */
+.btn {
+  min-height: 48px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btn:focus-visible, .answer-btn:focus-visible, .icon-btn:focus-visible {
+  outline: 3px solid #f59e0b; outline-offset: 3px;
+}
+.btn.primary { background: var(--teal); color: #fff; }
+.btn.primary:hover { background: var(--teal-dark); }
+.btn.primary:disabled { opacity: .55; cursor: default; }
+.btn.secondary { background: #fff; border-color: var(--teal); color: var(--teal); }
+.btn.ghost { background: transparent; border-color: #cbd5d1; color: var(--ink); }
+.btn.big { width: 100%; font-size: 19px; padding: 15px 20px; }
+.icon-btn {
+  background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px; padding: 10px 14px; font-size: 14px; cursor: pointer; white-space: nowrap;
+}
+
+/* Status permainan */
+.statusbar {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px;
+}
+.stat {
+  background: #f1f5f2; border: 1px solid #dce7e0; border-radius: 12px;
+  padding: 10px 8px; text-align: center;
+}
+.stat span { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.stat strong { display: block; margin-top: 4px; font-size: 18px; }
+.level-head h2 { font-size: clamp(22px, 4vw, 28px); }
+.level-head p { color: var(--muted); margin: 0 0 14px; line-height: 1.5; }
+
+.adventure { background: #f7f1e3; border: 1px dashed #d9c9a8; border-radius: 14px; padding: 14px; }
+.path { position: relative; padding-top: 6px; }
+#player {
+  position: absolute; left: 0; top: -4px; font-size: 30px;
+  transition: left .6s ease; transform: translateX(-4px); z-index: 2;
+}
+.track { height: 10px; background: #e7dcc3; border-radius: 999px; overflow: hidden; margin: 18px 0 12px; }
+#track-fill { height: 100%; width: 0%; background: var(--amber); transition: width .6s ease; }
+.doors { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.door {
+  border: 2px solid #d9c9a8; background: #fff; border-radius: 12px;
+  padding: 10px 4px; text-align: center; font-size: 28px;
+}
+.door small { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.door.open { background: var(--green-bg); border-color: #86efac; }
+.door.current { border-color: var(--amber); box-shadow: 0 0 0 3px #fef3c7; }
+.door-label { text-align: center; color: var(--muted); margin: 10px 0 0; }
+
+.question-card { margin-top: 18px; }
+.question-kicker { color: var(--muted); margin: 0 0 6px; }
+.question {
+  font-size: clamp(28px, 7vw, 44px); font-weight: 800; letter-spacing: .01em;
+  margin: 0 0 18px; line-height: 1.25; word-break: break-word;
+}
+.answers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.answer-btn {
+  min-height: 60px; padding: 14px 12px; border-radius: 14px;
+  border: 2px solid #d8e2dd; background: #fff;
+  font-size: 21px; font-weight: 800; cursor: pointer; font-family: inherit; color: var(--ink);
+}
+.answer-btn:hover:not(:disabled) { border-color: var(--teal); background: #effaf7; }
+.answer-btn:disabled { cursor: default; opacity: .9; }
+.answer-btn.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.answer-btn.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+
+.feedback {
+  margin-top: 16px; border-radius: 12px; padding: 14px 16px;
+  line-height: 1.6; font-size: 16px; display: none;
+}
+.feedback.show { display: block; }
+.feedback.good { background: var(--green-bg); border: 1px solid #86efac; }
+.feedback.bad { background: var(--red-bg); border: 1px solid #fecaca; }
+.feedback strong { display: block; font-size: 18px; margin-bottom: 4px; }
+#next-btn { margin-top: 14px; width: 100%; }
+
+.game-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.game-actions .btn { flex: 1 1 200px; }
+
+.end-emoji { font-size: 64px; margin: 0; text-align: center; }
+#end-title { text-align: center; }
+.result-box {
+  background: #eef7f3; border: 1px solid #cde8dd; border-radius: 14px;
+  padding: 16px; text-align: center; line-height: 1.7; font-size: 18px; margin: 18px 0;
+}
+.result-box p { margin: 4px 0; }
+.footer { max-width: 880px; margin: 0 auto; padding: 0 16px 24px; color: #bcd6cf; text-align: center; font-size: 13px; line-height: 1.5; }
+
+@media (max-width: 600px) {
+  .topbar { align-items: flex-start; }
+  .brand-icon { font-size: 32px; }
+  .icon-btn { font-size: 12px; padding: 8px 10px; }
+  .statusbar { grid-template-columns: repeat(2, 1fr); }
+  .answers { grid-template-columns: 1fr; }
+  .answer-btn { font-size: 20px; }
+  .doors { gap: 6px; }
+  .door { font-size: 22px; padding: 8px 2px; }
+}
